@@ -1,0 +1,205 @@
+<?php
+
+    /** DEFINE LANGUAGE STRINGS **************************************************************/
+    DEFINE("_PHP_DISERR", "Display PHP Errors Enabled");
+    DEFINE("_PHP_ERRREP", "PHP Error Reporting Enabled");
+    DEFINE("_PHP_LOGERR", "PHP Errors Being Logged To File");
+    // section titles & developer-mode array names
+    DEFINE("_FPA_SNAP_TITLE", "Environment Support Snapshot");
+    DEFINE("_FPA_INST_TITLE", "Application Instance");
+    DEFINE("_FPA_SYS_TITLE", "System Environment");
+    DEFINE("_FPA_PHP_TITLE", "PHP Environment");
+    DEFINE("_FPA_PHPEXT_TITLE", "PHP Extensions");
+    DEFINE("_FPA_PHPREQ_TITLE", "PHP Requirements");
+    DEFINE("_FPA_APAMOD_TITLE", "Apache Modules");
+    DEFINE("_FPA_APAREQ_TITLE", "Apache Requirements");
+    DEFINE("_FPA_DB_TITLE", "Database Instance");
+    DEFINE("_FPA_DBTBL_TITLE", "Table Structure");
+    DEFINE("_FPA_PERMCHK_TITLE", "Permissions Checks");
+    DEFINE("_FPA_COREDIR_TITLE", "Core Folders");
+    DEFINE("_FPA_ELEVPERM_TITLE", "Elevated Permissions");
+    DEFINE("_FPA_EXTCOM_TITLE", "Components");
+    DEFINE("_FPA_EXTMOD_TITLE", "Modules");
+    DEFINE("_FPA_EXTPLG_TITLE", "Plugins");
+    DEFINE("_FPA_TMPL_TITLE", "Templates");
+
+    // snapshot definitions
+    // v1.2.0
+    DEFINE("_FPA_SUPPHP", "PHP Supports");
+    DEFINE("_FPA_SUPSQL", "MySQL Supports");
+    DEFINE("_FPA_BADPHP", "Known Buggy PHP");
+    DEFINE("_FPA_BADZND", "Known Buggy Zend");
+    // slow screen message
+    // v1.2.0
+    DEFINE("_FPA_SLOWGENPOST", "Generating Post Output...");
+    DEFINE("_FPA_SLOWRUNTEST", "Hang on in there while we run some tests...");
+    // dev/diag-mode content
+    // v1.2.0
+    DEFINE("_FPA_DEVMI", "developer-mode-information");
+    DEFINE("_FPA_ELAPSE", "elapse-runtime");
+    DEFINE("_FPA_DEVENA", "DEVELOPER MODE is enabled");
+    DEFINE("_FPA_DEVDSC", "This means that a variety of additional information will be displayed on-screen to assist with troubleshooting this script.");
+    DEFINE("_FPA_DIAENA", "DIGNOSTIC MODE is enabled");
+    DEFINE("_FPA_DIADSC", "This means that all php and script errors will be displayed on-screen and logged out to a file named");
+    DEFINE("_FPA_DIAERR", "Last DIGNOSTIC MODE Error");
+    DEFINE("_FPA_SPNOTE", "Special Note");
+    // user post form content
+    // v1.2.0
+    DEFINE("_FPA_INSTRUCTIONS", "Instructions");
+    DEFINE("_FPA_INS_1", "Enter your problem description <i>(optional)</i>");
+    DEFINE("_FPA_INS_2", "Enter any error messages you see <i>(optional)</i>");
+    DEFINE("_FPA_INS_3", "Enter any actions taken to resolve the issue <i>(optional)</i>");
+    DEFINE("_FPA_INS_4", "Select detail level options of output <i>(optional)</i>");
+    DEFINE("_FPA_INS_5", "Click the <span class=\"normal-note\">Generate</span> post button to build the post content");
+    DEFINE("_FPA_INS_6", "Copy the contents of the <span class=\"ok-hilite\">&nbsp;Post Detail&nbsp;</span> box and paste it into a post");
+    DEFINE("_FPA_POST_NOTE", "Leave ALL fields blank/empty to simply post diagnostic information.");
+    DEFINE("_FPA_PROB_DSC", "Problem Description");
+    DEFINE("_FPA_PROB_MSG", "Log/Error Message");
+    DEFINE("_FPA_PROB_ACT", "Actions Taken To Resolve");
+    DEFINE("_FPA_PROB_CRE", "Actions To ReCreate Issue");
+    DEFINE("_FPA_OPT", "Optional Settings");
+    DEFINE("_FPA_SHOWELV", "Show elevated folder permissions");
+    DEFINE("_FPA_SHOWDBT", "Show database table statistics");
+    DEFINE("_FPA_SHOWCOM", "Show Components");
+    DEFINE("_FPA_SHOWMOD", "Show Modules");
+    DEFINE("_FPA_SHOWPLG", "Show Plugins");
+    DEFINE("_FPA_INFOPRI", "Information Privacy");
+    DEFINE("_FPA_PRIVNON", "None");
+    DEFINE("_FPA_PRIVNONNOTE", "No elements are masked");
+    DEFINE("_FPA_PRIVPAR", "Partial");
+    DEFINE("_FPA_PRIVPARNOTE", "Some elements are masked");
+    DEFINE("_FPA_PRIVSTR", "Strict");
+    DEFINE("_FPA_PRIVSTRNOTE", "All indentifiable elements are masked");
+    DEFINE("_FPA_CLICK", "Click Here To Generate Post");
+    DEFINE("_FPA_OUTMEM", "Out of Memory");
+    DEFINE("_FPA_OUTTIM", "Execution Time-Outs");
+    DEFINE("_FPA_INCPOPS", "Temporarily increase PHP Memory and Execution Time");
+    DEFINE("_FPA_POSTD", "Post Detail");
+
+
+    /** common screen and post output strings ************************************************/
+    // v1.2.0
+    DEFINE("_FPA_APP", "Joomla!");
+    DEFINE("_FPA_INSTANCE", "Instance");
+    DEFINE("_FPA_PLATFORM", "Platform");
+    DEFINE("_FPA_DB", "Database");
+    DEFINE("_FPA_SYS", "System");
+    DEFINE("_FPA_SERV", "Server");
+    DEFINE("_FPA_CLNT", "Client");
+    DEFINE("_FPA_HNAME", "Hostname");
+    DEFINE("_FPA_DISC", "Discovery");
+    DEFINE("_FPA_LEGEND", "Legends and Settings");
+    DEFINE("_FPA_GOOD", "OK/GOOD");
+    DEFINE("_FPA_WARNINGS", "WARNINGS");
+    DEFINE("_FPA_ALERTS", "ALERTS");
+    DEFINE("_FPA_SITE", "SITE");
+    DEFINE("_FPA_ADMIN", "ADMIN");
+    DEFINE("_FPA_BY", "by");
+    DEFINE("_FPA_OR", "or");
+    DEFINE("_FPA_OF", "of");
+    DEFINE("_FPA_TO", "to");
+    DEFINE("_FPA_FOR", "for");
+    DEFINE("_FPA_IS", "is");
+    DEFINE("_FPA_AT", "at");
+    DEFINE("_FPA_IN", "in");
+    DEFINE("_FPA_BUT", "but");
+    DEFINE("_FPA_LAST", "Last");
+    DEFINE("_FPA_NONE", "None");
+    DEFINE("_FPA_DEF", "default");
+    DEFINE("_FPA_Y", "Yes");
+    DEFINE("_FPA_N", "No");
+    DEFINE("_FPA_FIRST", "First");
+    DEFINE("_FPA_M", "Maybe");
+    DEFINE("_FPA_U", "Unknown");
+    DEFINE("_FPA_K", "Known");
+    DEFINE("_FPA_E", "Exists");
+    DEFINE("_FPA_JCORE", "Core");
+    DEFINE("_FPA_3PD", "3rd Party");
+    DEFINE("_FPA_TESTP", "tests performed");
+    DEFINE("_FPA_DNE", "Does Not Exist");
+    DEFINE("_FPA_F", "Found");
+    DEFINE("_FPA_NF", "Not Found");
+    DEFINE("_FPA_OPTS", "Options");
+    DEFINE("_FPA_CF", "Config");
+    DEFINE("_FPA_CFG", "Configuration");
+    DEFINE("_FPA_YC", "Configured");
+    DEFINE("_FPA_NC", "Not Configured");
+    DEFINE("_FPA_ECON", "Connection Error");
+    DEFINE("_FPA_CON", "Connect");
+    DEFINE("_FPA_YCON", "Connected");
+    DEFINE("_FPA_CONT", "Connection Type");
+    DEFINE("_FPA_NCON", "Not Connected");
+    DEFINE("_FPA_SUP", "support");
+    DEFINE("_FPA_YSUP", "supported");
+    DEFINE("_FPA_DROOT", "Doc Root");
+    DEFINE("_FPA_NSUP", "not supported");
+    DEFINE("_FPA_NOA", "Not Attempted");
+    DEFINE("_FPA_NER", "No Errors Reported");
+    DEFINE("_FPA_ER", "Error(s) Reported");
+    DEFINE("_FPA_ERR", "error");
+    DEFINE("_FPA_ERRS", "errors");
+    DEFINE("_FPA_YMATCH", "matches");
+    DEFINE("_FPA_NMATCH", "mis-match");
+    DEFINE("_FPA_NACOMP", "appear complete");
+    DEFINE("_FPA_YACOMP", "appear in-complete");
+    DEFINE("_FPA_SEC", "Security");
+    DEFINE("_FPA_FEAT", "Features");
+    DEFINE("_FPA_PERF", "Performance");
+    DEFINE("_FPA_NA", "N/A");
+    DEFINE("_FPA_CRED", "Credentials");
+    DEFINE("_FPA_CREDPRES", "Credentials Present");
+    DEFINE("_FPA_HOST", "Host");
+    DEFINE("_FPA_TEC", "Technology");
+    DEFINE("_FPA_WSVR", "Web Server");
+    DEFINE("_FPA_HIDDEN", "protected");
+    DEFINE("_FPA_PASS", "Password");
+    DEFINE("_FPA_USER", "Username");
+    DEFINE("_FPA_USR", "User");
+    DEFINE("_FPA_TNAM", "Name");
+    DEFINE("_FPA_TSIZ", "Size");
+    DEFINE("_FPA_TENG", "Engine");
+    DEFINE("_FPA_TCRE", "Created");
+    DEFINE("_FPA_TUPD", "Updated");
+    DEFINE("_FPA_TCKD", "Checked");
+    DEFINE("_FPA_TCOL", "Collation");
+    DEFINE("_FPA_CHARS", "Character Set");
+    DEFINE("_FPA_TFRA", "Fragment Size");
+    DEFINE("_FPA_AUTH", "Author");
+    DEFINE("_FPA_ADDR", "Address");
+    DEFINE("_FPA_STATUS", "Status");
+    DEFINE("_FPA_TREC", "Rcds");  // Number of table records
+    DEFINE("_FPA_TAVL", "Avg. Length");
+    DEFINE("_FPA_MODE", "Mode");
+    DEFINE("_FPA_WRITABLE", "Writable");
+    DEFINE("_FPA_RO", "Read-Only");
+    DEFINE("_FPA_FOLDER", "Folder");
+    DEFINE("_FPA_FILE", "File");
+    DEFINE("_FPA_OWNER", "Owner");
+    DEFINE("_FPA_GROUP", "Group");
+    DEFINE("_FPA_VER", "Version");
+    DEFINE("_FPA_LOCAL", "Local");
+    DEFINE("_FPA_REMOTE", "Remote");
+    DEFINE("_FPA_SECONDS", "seconds");
+    DEFINE("_FPA_TBL", "Table");
+    DEFINE("_FPA_STAT", "Statistics");
+    DEFINE("_FPA_BASIC", "Basic");
+    DEFINE("_FPA_DETAILED", "Detailed");
+    DEFINE("_FPA_ENVIRO", "Environment");
+    DEFINE("_FPA_VALID", "Valid");
+    DEFINE("_FPA_NVALID", "Not Valid");
+    DEFINE("_FPA_EN", "Enabled");
+    DEFINE("_FPA_DI", "Disabled");
+    DEFINE("_FPA_NO", "No");
+    DEFINE("_FPA_POTOI", "Potential Ownership Issues");
+    DEFINE("_FPA_POTME", "Potential Missing Extensions");
+    DEFINE("_FPA_POTMM", "Potential Missing Modules");
+    DEFINE("_FPA_DBCONNNOTE", "may not be an error, check with host for remote access requirements.");
+    DEFINE("_FPA_DBCREDINC", "Credentials incomplete or not available");
+    DEFINE("_FPA_MISSINGCRED", "Missing credentials detected");
+    DEFINE("_FPA_NODISPLAY", "Nothing to display.");
+    DEFINE("_FPA_EMPTY", "could be empty");
+    DEFINE("_FPA_UINC", "increased by user, was");
+    DEFINE("_PHP_VERLOW", "PHP version too low");
+    DEFINE("_FPA_SHOW", "Show");
+    DEFINE("_FPA_HIDE", "Hide");
+?>
