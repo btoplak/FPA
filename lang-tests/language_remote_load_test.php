@@ -1,8 +1,8 @@
 <?php
 
 
-$arrayURL = 'https://opentranslators.transifex.com/projects/p/fpa/resource/test-array-file/l/en/download/for_use/';
-$constantURL = 'https://opentranslators.transifex.com/projects/p/fpa/resource/test-constant-file/l/en/download/for_use/';
+$arrayURL = 'https://raw.githubusercontent.com/btoplak/FPA/FPA_2.0_Development/lang-tests/en_GB-array.php';
+$constantURL = 'https://github.com/btoplak/FPA/blob/FPA_2.0_Development/lang-tests/en_GB.php';
 
 
 $test = file_get_contents($arrayURL);

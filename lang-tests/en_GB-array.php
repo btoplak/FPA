@@ -1,6 +1,4 @@
-<?php
-
-$language = array(
+array(
     'Display PHP Errors Enabled' => 'Display PHP Errors Enabled',
     'PHP Error Reporting Enabled' => 'PHP Error Reporting Enabled',
     'PHP Errors Being Logged To File' => 'PHP Errors Being Logged To File',
@@ -188,4 +186,4 @@ $language = array(
     'PHP version too low' => 'PHP version too low',
     'Show' => 'Show',
     'Hide' => 'Hide',
-);
+)
