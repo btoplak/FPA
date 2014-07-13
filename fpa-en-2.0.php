@@ -66,13 +66,12 @@ class JInspector {
                 );
     }
 
-
-
-
 }
 
 
+
 /**
+ *
  * PhpServInspector class contains PHP and Server environment reconnaissance code
  *
  * @author Bernard Toplak, Joomla VEL Team <bernard.toplak@vel.joomla.org>
@@ -91,32 +90,49 @@ class PhpServInspector {
      */
     private $settings_check = array
         (
-        'safe_mode' => FALSE,
-        'allow_url_fopen' => TRUE,
-        'allow_url_include' => FALSE,
-        'magic_quotes_gpc' => FALSE,
-        'register_globals' => FALSE,
+        # values array( 'preferred value', 'joomla related', 'is security' )
+        'safe_mode' => array(
+            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => FALSE,
+            'message' => ''),
+        'allow_url_fopen' => array(
+            'pref_value' => FALSE, 'joomla' => FALSE, 'security' => TRUE,
+            ),
+        'allow_url_include' => array(
+            'pref_value' => FALSE, 'joomla' => FALSE, 'security' => TRUE,
+            ),
+        'magic_quotes_gpc' => array(
+            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => TRUE,
+            ),
+        'register_globals' => array(
+            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => TRUE,
+            ),
         'mbstring.language' => 'neutral',
         'mbstring.func_overload' => FALSE,
-        'display_errors' =>FALSE,
+        'display_errors' => FALSE,
         'file_uploads' => TRUE,
         'magic_quotes_runtime' => FALSE,
         'output_buffering' => FALSE,
         'session.auto_start' => FALSE,
+        'expose_php' => FALSE,
         );
 
     /**
      * @var array PHP settings to get values for
      */
     private $settings_getvals = array
-        ( 'session.save_path', 'file_uploads', 'upload_max_filesize', 'post_max_size',
-          'max_input_time', 'max_execution_time', 'memory_limit', 'disable_functions'
+        ( 'session.save_path', 'open_basedir', 'upload_tmp_dir',
+          'file_uploads', 'upload_max_filesize', 'post_max_size',
+          'max_input_time', 'max_execution_time', 'memory_limit',
+          'disable_functions', 'disable_classes', 'error_reporting',
+          'short_open_tag', 'zend.ze1_compatibility_mode', 'zend.multibyte',
         );
 
     /**
      * @var array PHP extensions to check if they exist
      */
-    private $extensions = array( 'zlib', 'xml', 'mbstring', 'json' );
+    private $extensions = array
+        ( 'curl', 'zlib', 'zip', 'bzip2', 'lzf', 'phar', 'rar', 'xml',
+          'mbstring', 'json' );
 
 
     /**
@@ -128,7 +144,6 @@ class PhpServInspector {
     {
         foreach ($this->functions as $function_name)
         {
-            $function_list = array();
             $function_list[$function_name] = function_exists($function_name);
         }
         return $function_list;
@@ -144,11 +159,12 @@ class PhpServInspector {
     {
         foreach ($this->settings_check As $setting_name => $expected)
         {
-            $settings_checklist = array();
-            $settings_checklist[$setting_name]['val'] = ini_get($setting_name);
-             # check if value is as expected
+            $settings_checklist[$setting_name]['val'] =
+                $this->convertINISettings(ini_get($setting_name));
+
+            # check if value is as expected
             $settings_checklist[$setting_name]['passed'] =
-                ($settings_checklist[$setting_name]['val'] == $expected)
+                ($settings_checklist[$setting_name]['val'] == $expected['pref_value'])
                     ? TRUE : FALSE;
         }
         return $settings_checklist;
@@ -164,10 +180,27 @@ class PhpServInspector {
     {
         foreach ($this->settings_getvals As $setting_name)
         {
-            $settings_values = array();
-            $settings_values[$setting_name] = ini_get($setting_name);
+            $settings_values[$setting_name] = $this->convertINISettings(ini_get($setting_name));
         }
         return $settings_values;
+    }
+
+
+    /**
+     * Converts 'falsy' values that can be returned from ini_get() into real boolean FALSE
+     *
+     * @param mixed $value The PHP INI value from ini_get()
+     * @return mixed Returns boolean FALSE if $value is expected alternative for 'Off',
+     *      boolean TRUE if value is '1', else returns the same value back
+     */
+    function convertINISettings($value)
+    {
+        if ( $value == '' || $value == '0' || $value == 'Off' )
+            return FALSE;
+        elseif ( $value == '1' )
+            return TRUE;
+        else
+            return $value;
     }
 
 
@@ -179,7 +212,6 @@ class PhpServInspector {
     {
         foreach ($this->extensions As $extension)
         {
-            $extension_list = array();
             $extension_list[$extension] = extension_loaded($extension);
         }
         return $extension_list;
@@ -236,9 +268,15 @@ class PhpServInspector {
      * @param type $session_save_path
      * @return type Description
      */
-    function checkSessionPathWrittable($session_save_path) {
+    function checkSessionPathWrittable ($session_save_path) {
 
 
+    }
+
+    function getMemoryUsage()
+    {
+         $memory_usage = memory_get_usage();
+         $memory_peak_usage = memory_get_peak_usage();
     }
 
 
@@ -251,8 +289,27 @@ class PhpServInspector {
  *
  * @author Bernard Toplak, Joomla VEL Team <bernard.toplak@vel.joomla.org>
  *
- * 
+ *
  */
 class FPA {
 
 }
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+$PhpInspect = new PhpServInspector();
+
+$Extensions = $PhpInspect->checkExtensions();
+$Functions = $PhpInspect->checkFunctionsExist();
+$SettingsCheck = $PhpInspect->checkSettings();
+$SettingsGet = $PhpInspect->getSettings();
+
+#echo '<pre>' .print_r ( $Extensions, 1 ). '</pre>';
+echo '$Extensions'; var_dump($Extensions); echo '<hr/>';
+#echo '<pre>' .print_r ( $Functions, 1 ). '</pre>';
+echo '$Functions'; var_dump($Functions); echo '<hr/>';
+#echo '<pre>' .print_r ( $SettingsCheck, 1 ). '</pre>';
+echo '$SettingsCheck'; var_dump($SettingsCheck); echo '<hr/>';
+#echo '<pre>' .print_r ( $SettingsGet, 1 ). '</pre>';
+echo '$SettingsGet'; var_dump($SettingsGet); echo '<hr/>';
