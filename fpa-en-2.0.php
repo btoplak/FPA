@@ -32,8 +32,13 @@ define('VERSION', '2.0.0-alpha');
 define('SUPPORT_URL', 'http://github.com/FPA/');
 define('NL', '<br />');
 
+
 # What path to scan
 $pathToScan = '.';
+
+
+
+
 
 
 /**
@@ -80,44 +85,67 @@ class JInspector {
  */
 class PhpServInspector {
 
-    /**
-     * @var array PHP functions to check if they exist
-     */
+    const OK = 0;
+    const WARNING = 1;
+    const PROBLEM = 2;
+
+    private $badPHP = array(
+        # all version below 5.1.6 have known vulnerability in the cURL library,
+        # allowed it to bypass the restrictions put in place by open_basedir
+        # or safe_mode using a file:// URL
+        '5.1.6' => array('<', self::PROBLEM),
+        '4.4.3' => array('<', self::PROBLEM),
+        '5.3' => array('<', self::WARNING)
+    );
+
+    private $badZend = array(
+        '2.5.10'
+    );
+
+    /** @var array PHP functions to check if they exist */
     private $functions = array( 'curl_init', 'zip_open', 'zip_read' );
 
-    /**
-     * @var array PHP settings to check values
+    /** @var array PHP settings to check values
+     * @todo http://phpsec.org/projects/phpsecinfo/tests/
      */
     private $settings_check = array
         (
-        # values array( 'preferred value', 'joomla related', 'is security' )
-        'safe_mode' => array(
-            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => FALSE,
-            'message' => ''),
-        'allow_url_fopen' => array(
-            'pref_value' => FALSE, 'joomla' => FALSE, 'security' => TRUE,
+        # values array( 'preferred value', 'joomla related', 'is security', 'notice' )
+        'safe_mode' =>
+            array( 'pref_val' => FALSE, 'joomla' => TRUE, 'sec' => FALSE,
+            'msg' => ''),
+        'allow_url_fopen' =>
+            array( 'pref_val' => FALSE, 'joomla' => FALSE, 'sec' => TRUE,
             ),
-        'allow_url_include' => array(
-            'pref_value' => FALSE, 'joomla' => FALSE, 'security' => TRUE,
+        'allow_url_include' =>
+            array( 'pref_val' => FALSE, 'joomla' => FALSE, 'sec' => TRUE,
             ),
-        'magic_quotes_gpc' => array(
-            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => TRUE,
+        'magic_quotes_gpc' =>
+            array( 'pref_val' => FALSE, 'joomla' => TRUE, 'sec' => TRUE,
             ),
-        'register_globals' => array(
-            'pref_value' => FALSE, 'joomla' => TRUE, 'security' => TRUE,
+        'register_globals' =>
+            array( 'pref_val' => FALSE, 'joomla' => TRUE, 'sec' => TRUE,
             ),
-        'mbstring.language' => 'neutral',
+        'mbstring.language' =>
+            array( 'pref_val' => 'neutral', 'joomla' => TRUE, 'sec' => TRUE,
+            ),
         'mbstring.func_overload' => FALSE,
         'display_errors' => FALSE,
         'file_uploads' => TRUE,
         'magic_quotes_runtime' => FALSE,
         'output_buffering' => FALSE,
         'session.auto_start' => FALSE,
-        'expose_php' => FALSE,
+        'expose_php' => array(
+            'pref_value' => FALSE, 'joomla' => FALSE, 'security' => TRUE,
+            ),
+        'cgi.force_redirect' => array(
+            'pref_value' => TRUE, 'joomla' => FALSE, 'security' => TRUE,
+            ),
         );
 
     /**
      * @var array PHP settings to get values for
+     * @todo Check paths in this settings, if they are writtable
      */
     private $settings_getvals = array
         ( 'session.save_path', 'open_basedir', 'upload_tmp_dir',
@@ -125,6 +153,7 @@ class PhpServInspector {
           'max_input_time', 'max_execution_time', 'memory_limit',
           'disable_functions', 'disable_classes', 'error_reporting',
           'short_open_tag', 'zend.ze1_compatibility_mode', 'zend.multibyte',
+
         );
 
     /**
@@ -197,7 +226,7 @@ class PhpServInspector {
     {
         if ( $value == '' || $value == '0' || $value == 'Off' )
             return FALSE;
-        elseif ( $value == '1' )
+        elseif ( $value == '1' || $value == 'On')
             return TRUE;
         else
             return $value;
@@ -300,16 +329,12 @@ class FPA {
 
 $PhpInspect = new PhpServInspector();
 
-$Extensions = $PhpInspect->checkExtensions();
-$Functions = $PhpInspect->checkFunctionsExist();
-$SettingsCheck = $PhpInspect->checkSettings();
-$SettingsGet = $PhpInspect->getSettings();
-
 #echo '<pre>' .print_r ( $Extensions, 1 ). '</pre>';
-echo '$Extensions'; var_dump($Extensions); echo '<hr/>';
+echo 'Extensions'; var_dump($PhpInspect->checkExtensions()); echo '<hr/>';
 #echo '<pre>' .print_r ( $Functions, 1 ). '</pre>';
-echo '$Functions'; var_dump($Functions); echo '<hr/>';
+echo 'Functions'; var_dump($PhpInspect->checkFunctionsExist()); echo '<hr/>';
 #echo '<pre>' .print_r ( $SettingsCheck, 1 ). '</pre>';
-echo '$SettingsCheck'; var_dump($SettingsCheck); echo '<hr/>';
+echo 'SettingsCheck'; var_dump($PhpInspect->checkSettings()); echo '<hr/>';
 #echo '<pre>' .print_r ( $SettingsGet, 1 ). '</pre>';
-echo '$SettingsGet'; var_dump($SettingsGet); echo '<hr/>';
+echo 'SettingsGet'; var_dump($PhpInspect->getSettings()); echo '<hr/>';
+
