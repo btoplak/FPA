@@ -38,7 +38,10 @@ $pathToScan = '.';
 
 
 
-
+/**
+ * TODO list
+ * @todo Test web.config files on Windows servers
+ */
 
 
 /**
@@ -95,7 +98,9 @@ class PhpServInspector {
         # or safe_mode using a file:// URL
         '5.1.6' => array('<', self::PROBLEM),
         '4.4.3' => array('<', self::PROBLEM),
-        '5.3' => array('<', self::WARNING)
+        '5.3' => array('<', self::WARNING),
+        '5.3.12' => array('<', self::PROBLEM, 'the CGI flaw (CVE-2012-1823)'),
+        '5.4.2' => array('<', self::PROBLEM, 'the CGI flaw (CVE-2012-1823)'),
     );
 
     private $badZend = array(
@@ -160,8 +165,8 @@ class PhpServInspector {
      * @var array PHP extensions to check if they exist
      */
     private $extensions = array
-        ( 'curl', 'zlib', 'zip', 'bzip2', 'lzf', 'phar', 'rar', 'xml',
-          'mbstring', 'json' );
+        ( 'curl', 'bcrypt', 'zlib', 'zip', 'bzip2', 'lzf', 'phar', 'rar', 'xml',
+          'mbstring', 'json', 'suhosin' );
 
 
     /**
