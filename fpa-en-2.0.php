@@ -149,6 +149,65 @@ class PhpServInspector {
         );
 
     /**
+     * SOURCE J3.3: \administrator23\components\com_admin\models\sysinfo.php
+     *
+	public function &getPhpSettings()
+	{
+		if (is_null($this->php_settings))
+		{
+			$this->php_settings = array();
+			$this->php_settings['safe_mode']			= ini_get('safe_mode') == '1';
+			$this->php_settings['display_errors']		= ini_get('display_errors') == '1';
+			$this->php_settings['short_open_tag']		= ini_get('short_open_tag') == '1';
+			$this->php_settings['file_uploads']			= ini_get('file_uploads') == '1';
+			$this->php_settings['magic_quotes_gpc']		= ini_get('magic_quotes_gpc') == '1';
+			$this->php_settings['register_globals']		= ini_get('register_globals') == '1';
+			$this->php_settings['output_buffering']		= (bool) ini_get('output_buffering');
+			$this->php_settings['open_basedir']			= ini_get('open_basedir');
+			$this->php_settings['session.save_path']	= ini_get('session.save_path');
+			$this->php_settings['session.auto_start']	= ini_get('session.auto_start');
+			$this->php_settings['disable_functions']	= ini_get('disable_functions');
+			$this->php_settings['xml']					= extension_loaded('xml');
+			$this->php_settings['zlib']					= extension_loaded('zlib');
+			$this->php_settings['zip']					= function_exists('zip_open') && function_exists('zip_read');
+			$this->php_settings['mbstring']				= extension_loaded('mbstring');
+			$this->php_settings['iconv']				= function_exists('iconv');
+
+     *
+     *
+     * 
+	 * Method to get the PHP info
+	 *
+	 * @return  string PHP info
+	 *
+	 * @since  1.6
+	 *
+	public function &getPHPInfo()
+	{
+		if (is_null($this->php_info))
+		{
+			ob_start();
+			date_default_timezone_set('UTC');
+			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+			$phpInfo = ob_get_contents();
+			ob_end_clean();
+			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
+			$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
+			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+			$output = preg_replace('#<hr />#', '', $output);
+			$output = str_replace('<div class="center">', '', $output);
+			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+			$output = str_replace('</table>', '</tbody></table>', $output);
+			$output = str_replace('</div>', '', $output);
+			$this->php_info = $output;
+		}
+
+		return $this->php_info;
+	}
+        */
+
+
+    /**
      * @var array PHP settings to get values for
      * @todo Check paths in this settings, if they are writtable
      */
